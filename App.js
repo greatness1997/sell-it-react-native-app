@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, {useState} from "react"
+import { StyleSheet, Text, View, SafeAreaView, Switch } from "react-native";
+import MessageScreen from "./assets/screens/MessageScreen";
+import Screen from "./assets/components/Screen";
+import Icon from "./assets/components/Icon";
+import ListItems from "./assets/components/ListItems";
+import AccountScreen from "./assets/screens/AccountScreen";
+import ListingScreen from "./assets/screens/ListingScreen";
+import AppTextInput from "./assets/components/AppTextInput";
+import AppPicker from "./assets/components/AppPicker";
+import LoginScreen from "./assets/screens/LoginScreen";
+import ListEditScreen from "./assets/screens/ListEditScreen";
+//import { useDeviceOrientation, useDimensions } from "@react-native-community/hooks"
+
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <ListEditScreen />
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
