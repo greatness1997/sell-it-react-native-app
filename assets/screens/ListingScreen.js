@@ -33,7 +33,7 @@ const listData = [
   },
 ];
 
-function ListingScreen(props) {
+function ListingScreen({ navigation }) {
   return (
     <Screen style={styles.screen}>
         <StatusBar style={colors.lightgrey}/>
@@ -41,7 +41,12 @@ function ListingScreen(props) {
         data={listData}
         keyExtractor={(listData) => listData.id}
         renderItem={({ item }) => (
-          <Card title={item.title} subtitle={"$" + item.price} image={item.image} />
+          <Card 
+            title={item.title} 
+            subtitle={"$" + item.price} 
+            image={item.image} 
+            onPress={() => navigation.navigate('ListDetailsScreen', item)}  
+          />
         )}
       />
     </Screen>

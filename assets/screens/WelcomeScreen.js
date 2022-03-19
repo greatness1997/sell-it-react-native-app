@@ -2,21 +2,21 @@ import React from "react";
 import { ImageBackground, StyleSheet, Image, View, Text } from "react-native";
 import AppButton from "../components/AppButton";
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
       blurRadius={2}
       resizeMode="contain"
       style={styles.background}
-      source={require("./images/delivery.png")}
+      source={require("../images/delivery.png")}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("./images/logo.png")} />
+        <Image style={styles.logo} source={require("../images/logo.png")} />
         <Text style={styles.text}>Sell Things you are done with</Text>
       </View>
       <View style={styles.btnContainer}>
-        <AppButton title="Login"/>
-        <AppButton title="Register" color="secondary"/>
+        <AppButton title="Login" onPress={() => navigation.navigate('Login')}/>
+        <AppButton title="Register" color="secondary" onPress={() => navigation.navigate('Register')}/>
       </View>
     </ImageBackground>
   );
