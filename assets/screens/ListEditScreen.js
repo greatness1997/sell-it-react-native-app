@@ -8,6 +8,7 @@ import { StyleSheet } from "react-native";
 
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import FormImagePicker from "../components/FormImagePicker";
+import listingsApi from '../api/listings'
 
 import * as Yup from "yup";
 //import { useLocation } from '../hooks/useLocation'
@@ -65,6 +66,18 @@ const categories = [
 function ListEditScreen(props) {
   //const location = useLocation();
 
+  const handleSubmit = async (product) => {
+    try {
+      const result = await listingsApi.postListings(product)
+      if(result.status == 200){
+        alert('Success')
+      }
+    } catch (error) {
+      console.log(error)
+      alert('could not send product')
+    }
+  }
+
   return (
     <Screen style={styles.container}>
       <AppForm
@@ -75,7 +88,7 @@ function ListEditScreen(props) {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
@@ -90,7 +103,7 @@ function ListEditScreen(props) {
           numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
           items={categories}
-          name="category"
+          name="categories"
           placeholder="Category"
         />
         <AppFormField

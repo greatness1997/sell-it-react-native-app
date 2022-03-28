@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { FlatList, View } from "react-native";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import ListItems from "../components/ListItems";
@@ -20,30 +20,30 @@ const initialMessages = [
   },
 ];
 
-
-
 function MessageScreen(props) {
-  const [ messages, setMessage ] = useState(initialMessages)
-  const [ refreshing, setRefreshing ] = useState(false)
+  const [messages, setMessage] = useState(initialMessages);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleDelete = (message) => {
-   setMessage(messages.filter(m => m.id !== message.id))
-  }
+    setMessage(messages.filter((m) => m.id !== message.id));
+  };
 
   return (
     <Screen>
-        <FlatList
-          data={messages}
-          keyExtractor={(message) => message.id}
-          renderItem={({ item }) => (
-            <ListItems
-              title={item.title}
-              subTitle={item.description}
-              image={item.image}
-              onPress={() => console.log(item)}
-              renderRightActions={() => 
-                <ListItemDeleteAction onPress={() => handleDelete(item)}/>}
-            />
+      <FlatList
+        data={messages}
+        keyExtractor={(message) => message.id}
+        renderItem={({ item, index }) => (
+          <ListItems
+            key={index}
+            title={item.title}
+            subTitle={item.description}
+            image={item.image}
+            onPress={() => console.log(item)}
+            renderRightActions={() => (
+              <ListItemDeleteAction onPress={() => handleDelete(item)} />
+            )}
+          />
         )}
         ItemSeparatorComponent={ListItemSeparator}
         refreshing={refreshing}
@@ -54,12 +54,11 @@ function MessageScreen(props) {
               title: "T1",
               description: "D1",
               image: require("../images/avatar.png"),
-            }
-          ])
+            },
+          ]);
         }}
       />
     </Screen>
-   
   );
 }
 

@@ -5,17 +5,15 @@ import colors from "../config/colors";
 import ListItems from "../components/ListItems";
 
 function ListDetailsScreen({ route }) {
-  const listing = route.params;
+  const listings = route.params;
+  console.log(listings)
 
   return (
     <ScrollView>
-      <Image
-        style={styles.image}
-        source={listing.image}
-      />
+      <Image style={styles.image} source={listings.images} />
       <View style={styles.textContainer}>
-        <AppText style={styles.text}>{ listing.title }</AppText>
-        <AppText style={styles.price}>{ listing.price }</AppText>
+        <AppText style={styles.text}>{listings.title}</AppText>
+        <AppText style={styles.price}>{listings.price}</AppText>
         <View style={styles.container}>
           <ListItems
             image={require("../images/avatar.png")}
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 5,
     color: colors.secondary,
-  }
+  },
 });
 
 export default ListDetailsScreen;
