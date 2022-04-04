@@ -52,7 +52,7 @@ function ListingScreen({ navigation }) {
             key={index}
             title={item.title}
             subtitle={"$" + item.price}
-            imageUrl={item.images}
+            imageUrl={item.images[0].url}
             onPress={() => navigation.navigate("ListDetailsScreen", item)}
           />
         )}

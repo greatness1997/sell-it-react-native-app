@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import Icon from "../components/Icon";
 import { StatusBar } from "expo-status-bar";
@@ -7,6 +7,8 @@ import ListItems from "../components/ListItems";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import ListItemSeparator from "../components/ListItemSeparator";
+import AuthContext from "../../assets/auth/context";
+import AuthStorage from "../../assets/auth/storage";
 
 const menuItems = [
   {
@@ -28,13 +30,19 @@ const menuItems = [
 ];
 
 function AccountScreen(props) {
+  const { user, setUser } = useContext(AuthContext);
+  const handleLogout = () => {
+    setUser(null);
+    AuthStorage.removeData();
+  };
+
   return (
     <Screen style={styles.screen}>
       <StatusBar style={colors.lightgrey} />
       <View style={styles.container}>
         <ListItems
-          title="Otokina Greatness"
-          subTitle="omohotokina@gmail.com"
+          title={user.name}
+          subTitle={user.email}
           image={require("../images/avatar.png")}
         />
       </View>
@@ -64,6 +72,7 @@ function AccountScreen(props) {
           IconComponent={
             <Icon name="logout" backgroundColor="#ffe66d" size={50} />
           }
+          onPress={handleLogout}
         />
       </View>
     </Screen>

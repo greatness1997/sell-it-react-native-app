@@ -1,10 +1,17 @@
-import React from "react";
-import { Image, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { Image, StyleSheet, ActivityIndicator } from "react-native";
 import Screen from "../components/Screen";
 import * as Yup from "yup";
 import AppFormField from "../components/AppFormField";
 import SubmitButton from "../components/SubmitButton";
+import LoadButton from "../components/LoadButton";
 import AppForm from "../components/AppForm";
+import ErrorMessage from "../components/ErrorMessage";
+import auth from "../api/auth";
+import colors from "../config/colors";
+import jwtDecode from "jwt-decode";
+
+import AuthContext from "../auth/context";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -12,14 +19,38 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(4).label("Passowrd"),
 });
 
-function LoginScreen(props) {
+function RegisterScreen() {
+  const [regError, setRegError] = useState(false);
+  const authContext = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (userInfo) => {
+    const result = await auth.register(userInfo);
+
+    if (!result.ok) {
+      if (result.data) setRegError(result.data.error);
+      else {
+        setRegError("An unexpcted error has occour");
+      }
+      return;
+    }
+
+    const { data: authToken } = await auth.login(
+      userInfo.email,
+      userInfo.password
+    );
+    const user = jwtDecode(authToken);
+    authContext.setUser(user)
+    authStorage.storeData(JSON.stringify(user));
+  };
+
   return (
     <Screen style={styles.container}>
       <Image style={styles.logo} source={require("../images/logo.png")} />
-
+      <ErrorMessage error={regError} visible={regError} />
       <AppForm
         initialValues={{ email: "", password: "", name: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleRegister}
         validationSchema={validationSchema}
       >
         <AppFormField
@@ -47,7 +78,8 @@ function LoginScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <SubmitButton title="Login" />
+
+        {loading == true ? <LoadButton /> : <SubmitButton title="Submit" />}
       </AppForm>
     </Screen>
   );
@@ -66,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;

@@ -1,59 +1,26 @@
-const router = require("express").Router();
-const User = require("../models/User");
-const CryptoJS = require("crypto-js");
-
+const express = require("express");
+const router = express.Router();
+const Joi = require("joi");
 const jwt = require("jsonwebtoken");
+const usersStore = require("../store/users");
+const validateWith = require("../middleware/validation");
 
-//REGISTER
-router.post("/register", async(req, res) => {
-    const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: CryptoJS.AES.encrypt(
-            req.body.password,
-            process.env.PASSWORD_SEC
-        ).toString(),
-    });
+const schema = {
+  email: Joi.string().email().required(),
+  password: Joi.string().required().min(5),
+};
 
-    try {
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
+router.post("/", validateWith(schema), (req, res) => {
+  const { email, password } = req.body;
+  const user = usersStore.getUserByEmail(email);
+  if (!user || user.password !== password)
+    return res.status(400).send({ error: "Invalid email or password." });
 
-//LOGIN
-router.post("/login", async(req, res) => {
-    try {
-        const user = await User.findOne({ username: req.body.username });
-        if (!user) {
-            res.status(401).json("user not found");
-        }
-
-        const hashPassword = CryptoJS.AES.decrypt(
-            user.password,
-            process.env.PASSWORD_SEC
-        );
-        const originalpassword = hashPassword.toString(CryptoJS.enc.Utf8);
-        if (originalpassword !== req.body.password) {
-            res.status(401).json("password incorrect");
-        }
-
-        //console.log(user);
-        const accessToken = jwt.sign({
-                id: user._id,
-                isAdmin: user.isAdmin,
-            },
-            process.env.JWT_SEC, { expiresIn: "3d" }
-        );
-
-        const { password, ...others } = user._doc;
-        res.status(200).json({...others, accessToken });
-    } catch (err) {
-        res.status(500).json(err);
-    }
+  const token = jwt.sign(
+    { userId: user.id, name: user.name, email },
+    "jwtPrivateKey"
+  );
+  res.send(token);
 });
 
 module.exports = router;

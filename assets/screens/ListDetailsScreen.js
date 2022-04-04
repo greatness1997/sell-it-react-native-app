@@ -6,14 +6,13 @@ import ListItems from "../components/ListItems";
 
 function ListDetailsScreen({ route }) {
   const listings = route.params;
-  console.log(listings)
 
   return (
     <ScrollView>
-      <Image style={styles.image} source={listings.images} />
+      <Image style={styles.image} source={{ uri: listings.images[0].url }} />
       <View style={styles.textContainer}>
         <AppText style={styles.text}>{listings.title}</AppText>
-        <AppText style={styles.price}>{listings.price}</AppText>
+        <AppText style={styles.price}>{"$" + listings.price}</AppText>
         <View style={styles.container}>
           <ListItems
             image={require("../images/avatar.png")}
