@@ -2,11 +2,12 @@
     "expo": {
         "name": "SellIt",
         "slug": "SellIt",
+        "platforms": ["ios", "android", "web"],
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/images/logo.png",
         "splash": {
-            "image": "./assets/images/cute-wallpapers-fashion.png",
+            "image": "./assets/images/Screensh.png",
             "resizeMode": "cover",
             "backgroundColor": "#ffffff"
         },
@@ -17,17 +18,25 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.otokinagreatness.sellit",
+            "buildNumber": "1.0.0"
         },
         "android": {
+            "package": "com.otokinagreatness.sellit",
+            "versionCode": 1,
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./assets/images/logo.png",
                 "backgroundColor": "#FFFFFF"
             }
+
         },
         "web": {
             "favicon": "./assets/favicon.png"
         },
-        "description": "A mobile application where you sell things you're done with,\n"
+        "description": "A mobile application where you sell things you're done with,\n",
+        "plugins": [
+            "sentry-expo"
+        ]
     }
 }

@@ -23,8 +23,7 @@ function UploadScreen({ onDone, progress = 0, visible = false }) {
             source={require("../animations/done.json")}
             style={styles.animation}
           />
-        )
-        }
+        )}
       </View>
     </Modal>
   );

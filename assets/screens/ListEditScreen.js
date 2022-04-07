@@ -68,7 +68,7 @@ function ListEditScreen(props) {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const handlePost = async (listing) => {
+  const handlePost = async (listing, { resetForm }) => {
     setProgress(0);
     setUploadVisible(true);
     const result = await listingsApi.addListings(listing, (progress) =>
@@ -80,6 +80,8 @@ function ListEditScreen(props) {
       setUploadVisible(false)
       return alert("Could not save the listing");
     } ;
+
+    resetForm()
   };
 
   return (

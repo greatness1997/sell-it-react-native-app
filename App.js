@@ -9,6 +9,8 @@ import authStorage from './assets/auth/storage'
 // import jwtDecode from "jwt-decode";
 import AppLoading from 'expo-app-loading'
 
+// import * as Sentry from '@sentry/react-native'
+
 export default function App() {
   const [user, setUser] = useState()
   const [ isReady, setIsReady ] = useState(false)
